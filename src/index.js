@@ -10,13 +10,14 @@ import Categories from './components/Categories';
 import Note from './components/Notes';
 import NoteDetails from './components/NoteDetails';
 import Register from './components/Register';
-// import Category from './Category';
+import CategoryDetails from './components/CategoryDetails';
 
 const AppRouter = () => (
     <Router>
         <div>
             <Route path='/' exact component={Homepage}/>
             <Route path='/categories' exact component={Categories}/>
+            <Route path='/categories/:id' exact component={CategoryDetails}/>
             <Route path='/notes' exact component={Note}/>
             <Route path='/notes/details/:id' exact component={NoteDetails}/>
             <Route path='/registration' exact component={Register}/>

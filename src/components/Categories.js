@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
-import NewCategory from './NewCategory';
+// import NewCategory from './NewCategory';
 import Navbar from './Navbar';
 import {Helmet} from "react-helmet";
 import axios from 'axios';
@@ -29,9 +29,6 @@ class Categories extends Component {
                 </Helmet>
                 <Navbar/>
                 <div><h1>Categories</h1></div>
-                <section>
-                    <NewCategory/>
-                </section>
                 <table className="table">
                     <thead>
                         <th>Name</th>
@@ -39,7 +36,7 @@ class Categories extends Component {
                     {this.state.data.map((category, key) => {
                         return (
                             <tr key={key}><td>
-                                <Link to={`/category/${category.id}`}>{category.name}</Link>
+                                <Link to={`/categories/${category.id}`}>{category.name}</Link>
                             </td></tr>
                         )
                     })}
