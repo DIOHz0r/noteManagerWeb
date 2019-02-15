@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import NewCategory from './NewCategory';
+import Navbar from './Navbar';
 import {Helmet} from "react-helmet";
 import axios from 'axios';
 
@@ -26,6 +27,8 @@ class Categories extends Component {
                 <Helmet>
                     <title>Note Manager - Categories</title>
                 </Helmet>
+                <Navbar/>
+                <div><h1>Categories</h1></div>
                 <section>
                     <NewCategory/>
                 </section>

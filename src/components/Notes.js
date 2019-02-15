@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import {Helmet} from "react-helmet";
+import Navbar from "./Navbar";
 
 class Notes extends Component {
     state = {
@@ -26,11 +27,13 @@ class Notes extends Component {
                 <Helmet>
                     <title>Note Manager - Notes</title>
                 </Helmet>
-                <div><h2>My notes</h2></div>
+                <Navbar/>
+                <div><h1>My notes</h1></div>
                 <table className="table">
                     <thead>
                     <tr>
-                        <th>Note</th>
+                        <th>Notes</th>
+                        <th>Created at</th>
                         <th>Status</th>
                     </tr>
                     </thead>
@@ -42,6 +45,7 @@ class Notes extends Component {
                                 <td>
                                     <Link to={`/notes/details/${note.id}`}>{note.title}</Link>
                                 </td>
+                                <td>{note.created_at}</td>
                                 <td>{status}</td>
                             </tr>
                         )
