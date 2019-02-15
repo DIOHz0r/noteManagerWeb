@@ -17,8 +17,10 @@ export default class extends Component {
         };
         axios.post('/api/login', data)
             .then(response => {
-                console.log(response.data);
-                localStorage.setItem('userToken', response.data.data.api_token);
+                const apiToken = response.data.data.api_token;
+                localStorage.clear();
+                localStorage.setItem('userToken', apiToken);
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + apiToken;
                 this.props.history.push("/notes");
             })
             .catch(error => {
