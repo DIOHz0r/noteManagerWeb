@@ -11,6 +11,10 @@ class Categories extends Component {
     };
 
     async componentDidMount() {
+        this.listCategories();
+    }
+
+    listCategories() {
         axios.get('/api/categories')
             .then(response => {
                 this.setState({data: response.data})
@@ -20,6 +24,20 @@ class Categories extends Component {
                 this.setState({error: true});
             });
     }
+
+    deleteHandler = (id) => {
+        if (!window.confirm('Are you sure that you want to delete this information?')) {
+            return;
+        }
+        axios.delete('/api/categories/' + id)
+            .then(response => {
+                this.listNotes();
+            })
+            .catch(error => {
+                let errorData = error.response.data;
+                alert(errorData.message);
+            });
+    };
 
     render() {
         return (
@@ -31,13 +49,19 @@ class Categories extends Component {
                 <div><h1>Categories</h1></div>
                 <table className="table">
                     <thead>
-                        <th>Name</th>
+                    <th>Name</th>
+                    <th></th>
                     </thead>
                     {this.state.data.map((category, key) => {
                         return (
-                            <tr key={key}><td>
-                                <Link to={`/categories/${category.id}`}>{category.name}</Link>
-                            </td></tr>
+                            <tr key={key}>
+                                <td>
+                                    <Link to={`/categories/${category.id}`}>{category.name}</Link>
+                                </td>
+                                <td>
+                                    <a className="btn btn-danger" onClick={() => this.deleteHandler(category.id)}>Delete</a>
+                                </td>
+                            </tr>
                         )
                     })}
                 </table>

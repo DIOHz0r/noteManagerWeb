@@ -10,6 +10,10 @@ class Notes extends Component {
     };
 
     async componentDidMount() {
+        this.listNotes();
+    }
+
+    listNotes() {
         axios.get('/api/notes')
             .then(response => {
                 this.setState({data: response.data})
@@ -19,6 +23,20 @@ class Notes extends Component {
                 this.setState({error: true});
             });
     }
+
+    deleteHandler = (id) => {
+        if (!window.confirm('Are you sure that you want to delete this information?')) {
+            return;
+        }
+        axios.delete('/api/notes/' + id)
+            .then(response => {
+                this.listNotes();
+            })
+            .catch(error => {
+                let errorData = error.response.data;
+                alert(errorData.message);
+            });
+    };
 
     render() {
 
@@ -35,11 +53,12 @@ class Notes extends Component {
                         <th>Notes</th>
                         <th>Created at</th>
                         <th>Status</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     {this.state.data.map((note, key) => {
-                        const status = (note.done )? 'Done' : 'Pending';
+                        const status = (note.done) ? 'Done' : 'Pending';
                         return (
                             <tr key={key}>
                                 <td>
@@ -47,6 +66,9 @@ class Notes extends Component {
                                 </td>
                                 <td>{note.created_at}</td>
                                 <td>{status}</td>
+                                <td>
+                                    <a className="btn btn-danger" onClick={() => this.deleteHandler(note.id)}>Delete</a>
+                                </td>
                             </tr>
                         )
                     })}
