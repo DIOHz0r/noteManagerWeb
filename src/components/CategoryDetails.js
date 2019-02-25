@@ -7,7 +7,6 @@ import Navbar from "./Navbar";
 class CategoryDetails extends Component {
     state = {
         data: {},
-        name: '',
         formError: '',
         errors: {},
     };
@@ -16,7 +15,7 @@ class CategoryDetails extends Component {
         const {match} = this.props;
         axios.get('/api/categories/' + match.params.id)
             .then(response => {
-                this.setState({data: response.data.data})
+                this.setState({data: response.data})
             })
             .catch(error => {
                 // console.log(error);
@@ -27,11 +26,12 @@ class CategoryDetails extends Component {
     postDataHandler = () => {
         const {match} = this.props;
         const data = {
-            name: this.state.name,
+            name: this.state.data.name,
         };
         axios.patch('/api/categories/' + match.params.id, data)
             .then(response => {
-                console.log(response.data);
+                alert('Information updated');
+                this.props.history.push("/categories");
             })
             .catch(error => {
                 let errorData = error.response.data;
@@ -43,7 +43,7 @@ class CategoryDetails extends Component {
     };
 
     captureValue = (e) => {
-        this.setState({[e.target.name]: e.target.value});
+        this.setState({data:{name: e.target.value}});
     };
 
     renderError() {
@@ -78,14 +78,14 @@ class CategoryDetails extends Component {
                         {this.renderError()}
                         <div className="form-group">
                             <label>Name:</label>
-                            <input className="form-control" type="text" value={category.name}
+                            <input name="name" className="form-control" type="text" value={category.name || ''}
                                    onChange={this.captureValue} required/>
                         </div>
                     </div>
 
                     <div className="text-center">
                         <button type="submit" className="btn btn-primary" onClick={this.postDataHandler}>
-                            Add new category
+                            Edit category
                         </button>
                     </div>
                 </div>
